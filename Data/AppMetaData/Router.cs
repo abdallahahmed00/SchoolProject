@@ -30,6 +30,14 @@ namespace Data.AppMetaData
             public const string GetById = Prefix +"/{Id}";
 
         }
+        public static class ApplicationUserRouting
+        {
+            public const string Prefix = Rule + "User";
+            public const string Create = Prefix + "/Create";
+
+
+        }
+
 
     }
 }

@@ -1,22 +1,26 @@
-﻿using Data.Entities;
+﻿using Core;
+using Core.Features.User.Commands.Models;
+using Core.Features.User.Commands.Validations;
+using Data.Entities;
+using FluentValidation;
 using infrastructure.Data;
 using infrastructure.Interface;
 using infrastructure.Repositires;
+using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Infrastructure;
 using Service;
-using Core; 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers().AddJsonOptions(options =>
-{
-    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
-    options.JsonSerializerOptions.WriteIndented = true;
-});
+builder.Services.AddControllers();
+//    .AddJsonOptions(options =>
+//{
+//    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+//    options.JsonSerializerOptions.WriteIndented = true;
+//});
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -28,8 +32,9 @@ builder.Services.AddDbContext<AppDbContext>(Options =>
 });
 builder.Services.AddInfrastructureDependencies().
                  AddServiceDependencies().
-                 AddCoreDependencies();
-
+                 AddCoreDependencies()
+                 .AddServiceRegisteration((builder.Configuration));
+    
 var cors = "_Cors";
 builder.Services.AddCors(options =>
 {
@@ -44,6 +49,7 @@ builder.Services.AddCors(options =>
 
 });
 
+builder.Services.AddScoped<IValidator<AddUserCommand>, AddUserValiator>();
 
 
 
