@@ -43,9 +43,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\User\Queries\Handler\" />
-    <Folder Include="Features\User\Queries\Models\" />
-    <Folder Include="Mapping\AppUserMapping\Qyery\" />
     <Folder Include="Mapping\DepartmentsMspping\CommandMapping\" />
   </ItemGroup>
 

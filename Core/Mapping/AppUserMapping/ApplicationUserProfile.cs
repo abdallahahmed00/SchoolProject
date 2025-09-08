@@ -12,6 +12,9 @@ namespace Core.Mapping.AppUserMapping
         public ApplicationUserProfile() 
         {
             AddUserMapping();
+            GetListUserMapping();
+            GetUserByIdMapping();
+            UpdateUserMapping();
         }
     }
 }
