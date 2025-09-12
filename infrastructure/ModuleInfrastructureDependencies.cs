@@ -19,6 +19,7 @@ namespace Infrastructure
                 services.AddTransient<IStudentRepositry, StudentRepositry>();
                 services.AddTransient<IDepartmentRepositry, DepartmentRepositry>();
                 services.AddTransient<IInstructorRepositry, InstructorRepositry>();
+                services.AddTransient<IRefreshTokenRepo, RefreshTokenRepo>();
             services.AddTransient(typeof(IGenericRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
             return services;
             }
