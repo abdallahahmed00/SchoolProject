@@ -10,11 +10,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Basis;
+using Microsoft.EntityFrameworkCore.Storage.Json;
 
 namespace Core.Features.Instrucotrs.Queries.Handler
 {
     public class InstructorQueryHandler :ResponseHandler , 
-        IRequestHandler<GetAllInstructorQuery, Response<List<GetAllInstrucorResponse>>>
+        IRequestHandler<GetAllInstructorQuery, Response<List<GetAllInstrucorResponse>>>,
+        IRequestHandler<GetInstructorByIdQuery, Response<GetInstructorByIdResponse>>,
+        IRequestHandler<GetTotalSalaryQuery, Response<GetTotalSalaryResponse>>
     {
         private readonly IInstructorService _instructorService;
         private readonly IMapper _mapper; 
@@ -29,6 +32,20 @@ namespace Core.Features.Instrucotrs.Queries.Handler
            var instrucotr=  await _instructorService.GetAllInstructor();
             var mapper = _mapper.Map<List<GetAllInstrucorResponse>>(instrucotr);
               return Success(mapper);
+        }
+
+        public async Task<Response<GetInstructorByIdResponse>> Handle(GetInstructorByIdQuery request, CancellationToken cancellationToken)
+        {
+            var instructor = await _instructorService.GetInstructorById(request.Id);
+            var instructormapper = _mapper.Map<GetInstructorByIdResponse>(instructor);
+            return Success(instructormapper);
+        }
+
+        public async Task<Response<GetTotalSalaryResponse>> Handle(GetTotalSalaryQuery request, CancellationToken cancellationToken)
+        {
+            var salary =await _instructorService.GetTotalSalary();
+                var result = new GetTotalSalaryResponse { Salary = salary };
+            return Success (result);
         }
     }
 }

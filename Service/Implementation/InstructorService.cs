@@ -20,12 +20,53 @@ namespace Service.Implementation
             _instructorRepositry = instructorRepositry; 
      
         }
+
+        public async Task<string> DeleteInstructor(Instructor instructor)
+        {
+            var trans = _instructorRepositry.BeginTransaction();
+            try
+            {
+            await    _instructorRepositry.DeleteAsync(instructor);
+               await trans.CommitAsync();
+                return "Success";
+
+            }
+           
+                 catch
+            {
+                await trans.RollbackAsync();
+                return "Failed";
+            }
+        }
+        
+
         public async Task<List<Instructor>> GetAllInstructor()
         {
          return await   _instructorRepositry.GetTableNoTracking()
                 .Include(i=>i.department)
                 .Include(i=>i.Ins_Subjects).ThenInclude(s => s.Subject)
                 .ToListAsync();
+        }
+
+        public async Task<Instructor> GetInstructorById(int Id)
+        {
+            var Instructor =  await _instructorRepositry.GetTableNoTracking()
+               .Include(i => i.department)
+               .Include(i => i.Ins_Subjects).ThenInclude(s => s.Subject)
+               .Where(x=>x.InsId.Equals(Id)).FirstOrDefaultAsync();
+            return (Instructor);
+        }
+
+        public async Task<Instructor> GetInstructorByIdWithoutInclude(int Id)
+        {
+            var instructor = await _instructorRepositry.GetByIdAsync(Id);
+            return instructor;
+        }
+
+        public async Task<decimal> GetTotalSalary()
+        {
+          return 
+                 await _instructorRepositry.GetTotalSalaryForInstructor();
         }
     }
 

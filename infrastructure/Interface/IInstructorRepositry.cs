@@ -12,6 +12,6 @@ namespace Infrastructure.Interface
 
     {
 
-
+        public Task<decimal> GetTotalSalaryForInstructor();
     }
 }

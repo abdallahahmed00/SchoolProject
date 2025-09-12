@@ -11,7 +11,8 @@ namespace Core.Mapping.InstructorMapping
     {
       public InstructorProfile() 
         {
-            GetAllInstructorMapping(); 
+            GetAllInstructorMapping();
+            GetInstructorByIdMapping();
         }
     }
 

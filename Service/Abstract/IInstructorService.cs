@@ -10,5 +10,9 @@ namespace Service.Abstract
     public interface IInstructorService
     {
         public Task <List<Instructor>> GetAllInstructor();
+        public Task<Instructor> GetInstructorById(int Id);
+            public Task<Instructor> GetInstructorByIdWithoutInclude(int Id);
+            public Task<string> DeleteInstructor(Instructor instructor);
+        public Task<decimal> GetTotalSalary();
     }
 }

@@ -31,5 +31,11 @@ namespace SchoolProject.Api.Controllers
             var res = await _mediator.Send(new GetDepartmendByIdQuery(Id));
             return NewResult(res);
         }
+        [HttpGet(Router.DepartmentRouting.TotalInstructor)]
+        public async Task<IActionResult> TotalInstructor()
+        {
+            var res = await _mediator.Send(new GetTotalInstructorInDepartmentQuery());
+            return NewResult(res);
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace Core.Mapping.DepartmentsMspping
         public DepartmentProfile() 
         {
             GetDepartmentByIdMapping();
-
+            GetTotalInstructorMapping();
 
         }
     }

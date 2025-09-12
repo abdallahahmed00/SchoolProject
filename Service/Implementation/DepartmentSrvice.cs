@@ -40,6 +40,11 @@ namespace Service.Implementation
             return department;
         }
 
+        public async Task<List<Department>> GetNumberOfInstructorinDepartment()
+        {
+          return await  _departmentrepo.GetNumberOfInstructorinDepartment();
+        }
+
         public  async Task<bool> IsDepartmentExist(int DepartmentID)
         {
            return await  _departmentrepo?.GetTableNoTracking().AnyAsync(X => X.DID.Equals( DepartmentID));

@@ -23,10 +23,22 @@ namespace Data.AppMetaData
             public const string GetById = Prefix + "/{Id}";
             public const string GetByName = Prefix + "/Name" + "/{Name}";
         }
+        public static class InstructorRouting
+        {
+            public const string Prefix = Rule + "Instructor";
+            public const string List = Prefix + "/List";
+            public const string Delete = Prefix + "/Delete";
+            public const string TotalSalary = Prefix + "/TotalSalary";
+         
+            public const string GetById = Prefix + "/{Id}";
+
+        }
+
         public static class DepartmentRouting
         {
             public const string Prefix = Rule + "Department";
             public const string List = Prefix + "/List";
+            public const string TotalInstructor = Prefix + "/TotalInstructor";
             public const string GetById = Prefix + "/{Id}";
 
         }

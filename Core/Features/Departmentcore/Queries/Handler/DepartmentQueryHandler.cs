@@ -9,7 +9,8 @@ namespace Core.Features.Departmentcore.Queries.Handler
 {
     public class DepartmentQueryHandler : ResponseHandler,
         IRequestHandler<GetListDepartmentQuery, Response<List<GetListDepartmentDto>>>,
-IRequestHandler<GetDepartmendByIdQuery, Response<GetDepartmentByIdResponse>>
+IRequestHandler<GetDepartmendByIdQuery, Response<GetDepartmentByIdResponse>>,
+IRequestHandler<GetTotalInstructorInDepartmentQuery, Response<List< GetTotalInstructorInDepartmentResponse>>>
     {
         private readonly IDepartmentSrvice _departmentservice;
         private readonly IMapper _mapper;
@@ -38,6 +39,15 @@ IRequestHandler<GetDepartmendByIdQuery, Response<GetDepartmentByIdResponse>>
             }
             var mapper = _mapper.Map<GetDepartmentByIdResponse>(department);
             return Success(mapper); 
+        }
+
+        public async Task<Response<List<GetTotalInstructorInDepartmentResponse>>> Handle(GetTotalInstructorInDepartmentQuery request, CancellationToken cancellationToken)
+        {
+            var departments = await _departmentservice.GetNumberOfInstructorinDepartment();
+
+            var result = _mapper.Map<List<GetTotalInstructorInDepartmentResponse>>(departments);
+
+            return Success(result);
         }
     }
 }

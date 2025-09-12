@@ -19,5 +19,9 @@ namespace Infrastructure.Repositires
             _Department = context.Set<Department>();
         }
 
+        public async Task<List<Department>> GetNumberOfInstructorinDepartment()
+        {
+           return await _Department.Include(x=>x.Instructors).ToListAsync();
+        }
     }
 }
