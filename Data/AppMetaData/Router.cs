@@ -43,6 +43,11 @@ namespace Data.AppMetaData
 
         }
 
+        public static class AuthorizationRouting
+        {
+            public const string Prefix = Rule + "Authorization";
+            public const string Create = Prefix + "/Role/Create";
+        }
 
     }
 }

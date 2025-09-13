@@ -2,11 +2,14 @@
 using Core.Features.User.Commands.Models;
 using Core.Features.User.Commands.Validations;
 using Data.Entities;
+using Data.Entities.Identity;
 using FluentValidation;
 using infrastructure.Data;
 using infrastructure.Interface;
 using infrastructure.Repositires;
 using Infrastructure;
+using Infrastructure.Seedor;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Service;
@@ -55,6 +58,13 @@ builder.Services.AddScoped<IValidator<AddUserCommand>, AddUserValiator>();
 
 
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
+    await RoleSeedor.SeedAsync(roleManager);
+    await UserSeedor.SeedAsync(userManager);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
