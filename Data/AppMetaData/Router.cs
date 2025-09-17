@@ -10,27 +10,39 @@ namespace Data.AppMetaData
     {
         public const string root = "Api";
         public const string version = "V1";
-        public const string Rule =root+"/"+version+"/";
+        public const string Rule = root + "/" + version + "/";
 
         public static class StudentRouting
         {
-            public const string Prefix = Rule+"Student";
-            public const string List = Prefix+"/List";
-            public const string create = Prefix+ "/create";
-            public const string Delete = Prefix+ "/Delete";
-            public const string Update = Prefix+ "/Update";
-            public const string UpdateName = Prefix+ "/UpdateName";
-            public const string GetById = Prefix+"/{Id}";
-            public const string GetByName = Prefix+"/Name"+"/{Name}";
+            public const string Prefix = Rule + "Student";
+            public const string List = Prefix + "/List";
+            public const string create = Prefix + "/create";
+            public const string Delete = Prefix + "/Delete";
+            public const string Update = Prefix + "/Update";
+            public const string UpdateName = Prefix + "/UpdateName";
+            public const string GetById = Prefix + "/{Id}";
+            public const string GetByName = Prefix + "/Name" + "/{Name}";
         }
-        public static class DepartmentRouting
+        public static class InstructorRouting
         {
-            public const string Prefix = Rule +"Department";
-            public const string List = Prefix +"/List";
-            public const string GetById = Prefix +"/{Id}";
+            public const string Prefix = Rule + "Instructor";
+            public const string List = Prefix + "/List";
+            public const string Delete = Prefix + "/Delete";
+            public const string TotalSalary = Prefix + "/TotalSalary";
+         
+            public const string GetById = Prefix + "/{Id}";
 
         }
-        public static class  ApplicationUserRouting
+
+        public static class DepartmentRouting
+        {
+            public const string Prefix = Rule + "Department";
+            public const string List = Prefix + "/List";
+            public const string TotalInstructor = Prefix + "/TotalInstructor";
+            public const string GetById = Prefix + "/{Id}";
+
+        }
+        public static class ApplicationUserRouting
         {
             public const string Prefix = Rule + "User";
             public const string Create = Prefix + "/Create";
@@ -42,11 +54,30 @@ namespace Data.AppMetaData
 
 
         }
+        public static class AuthenticationRouting
+            {
+            public const string Prefix = Rule + "Authentication";
+            public const string SighIn = Prefix + "/SighIn";
+            public const string RefreshToken = Prefix + "/RefreshToken";
+            public const string ValidateToken = Prefix + "/ValidateToken";
+
+        }
 
         public static class AuthorizationRouting
         {
             public const string Prefix = Rule + "Authorization";
             public const string Create = Prefix + "/Role/Create";
+            public const string Edit = Prefix + "/Role/Edit";
+            public const string Delete = Prefix + "/Role/Delete";
+            public const string GetList = Prefix + "/Role/GetList";
+            public const string Get = Prefix + "/Role/Get/{Id}";
+            public const string ManageUserRoles = Prefix + "/Role/ManageUserRoles/{Id}";
+            public const string UpdateUserRoles = Prefix + "/Role/UpdateUserRoles/{Id}";
+            public const string ManageUserClaim = Prefix + "/Claim/ManageUserClaim/{Id}";
+            public const string UpdateUserClaims = Prefix + "/Claim/UpdateUserClaims/{Id}";
+
+
+
         }
 
     }

@@ -19,5 +19,10 @@ namespace Infrastructure.Repositires
         {
             instructor = context.Set<Instructor>();
         }
+
+        public async Task<decimal> GetTotalSalaryForInstructor()
+        {
+            return await instructor.Where(x=>x.Salary.HasValue).SumAsync(x => x.Salary??0);
+        }
     }
 }

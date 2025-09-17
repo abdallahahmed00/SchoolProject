@@ -27,7 +27,7 @@ namespace Core.Features.Authorization.Commands.Validations
         public void ApplyCustomValidationRules()
         {
             RuleFor(x => x.RoleName).MustAsync(async (Key, CancellationToken) =>
-            !await _authorizationService.IsRoleExist(Key))
+            !await _authorizationService.IsRoleExistByName(Key))
                 .WithMessage("this role name is exist");
         }
 

@@ -43,7 +43,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Authorization\Queries\" />
+    <Folder Include="Features\Authentication\Results\" />
+    <Folder Include="Features\Instrucotrs\Command\Validation\" />
     <Folder Include="Mapping\DepartmentsMspping\CommandMapping\" />
   </ItemGroup>
 

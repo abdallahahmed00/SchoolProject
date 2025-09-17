@@ -13,8 +13,11 @@ using Service.Implementation;
                 services.AddTransient<IStudentService, StudentService>();
                 services.AddTransient<IDepartmentSrvice, DepartmentSrvice>();
                 services.AddTransient<IInstructorService, InstructorService>();
-                services.AddTransient<IAuthorizationService, AuthorizationService>();
-                return services;
+                services.AddTransient<IAuthenticationService, AuthenticationService>();
+
+            services.AddTransient<IAuthorizationService, AuthorizationService>();
+
+            return services;
             }
         }
     }

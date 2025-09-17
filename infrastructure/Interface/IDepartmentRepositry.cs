@@ -10,6 +10,6 @@ namespace Infrastructure.Interface
 {
     public interface IDepartmentRepositry :IGenericRepositoryAsync<Department>
     {
-
+        public Task<List< Department>> GetNumberOfInstructorinDepartment();
     }
 }

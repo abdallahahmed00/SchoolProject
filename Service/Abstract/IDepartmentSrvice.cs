@@ -11,6 +11,7 @@ namespace Service.Abstract
     {
         public  Task<List<Department>> GetAllDepartment();
         public Task<Department> GetDepartmentByIdAsync(int Id);
+        public Task<List<Department>> GetNumberOfInstructorinDepartment();
 
         public Task<bool> IsDepartmentExist(int DepartmentID);
 
