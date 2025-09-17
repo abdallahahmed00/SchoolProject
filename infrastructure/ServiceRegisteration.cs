@@ -22,7 +22,7 @@ namespace Infrastructure
         public static IServiceCollection AddServiceRegisteration(this IServiceCollection services
             , IConfiguration configuration)
         {
-            services.AddIdentity<User, IdentityRole<int>>(option =>
+            services.AddIdentity<User,Data.Entities.Identity.Role >(option => 
             {
                 // Password settings.
                 option.Password.RequireDigit = true;

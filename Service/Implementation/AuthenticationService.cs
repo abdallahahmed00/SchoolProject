@@ -1,5 +1,6 @@
 ﻿    using Data.Entities.Identity;
 using Data.Helpers;
+using Data.Response;
 using infrastructure.Data;
 using Infrastructure.Interface;
 using Microsoft.AspNetCore.Identity;
@@ -59,7 +60,8 @@ namespace Service.Implementation
         }
         private async Task<(JwtSecurityToken, string)> GenerateJWTToken(User user)
         {
-            var claims = await GetClaim(user);
+            var roles =await _userManager.GetRolesAsync(user);
+            var claims = await GetClaim(user,roles.ToList());
             var jwtToken = new JwtSecurityToken(
                 _jwtSettings.Issuer,
                 _jwtSettings.Audience,
@@ -89,15 +91,22 @@ namespace Service.Implementation
             randomNumberGenerate.GetBytes(randomNumber);
             return Convert.ToBase64String(randomNumber);
         }
-        public async Task< List<Claim>> GetClaim(User user)
+        public async Task< List<Claim>> GetClaim(User user,List<string>roles)
         {
             var Claim = new List<Claim>()
             {
-                new Claim (nameof( UserClaimModel.UserName),user.UserName) ,
-                new Claim (nameof( UserClaimModel.Email),user.Email) ,
+                new Claim (ClaimTypes.Name,user.UserName),
+                new Claim (ClaimTypes.NameIdentifier,user.UserName),
+                new Claim (ClaimTypes.Email,user.Email),
+                new Claim (ClaimTypes.Role,"Admin"),
                 new Claim (nameof( UserClaimModel.PhoneNumber),user.PhoneNumber),
                 new Claim (nameof( UserClaimModel.Id),user.Id.ToString())
+          
             };
+            foreach(var role in roles)
+            {
+                Claim.Add(new Claim(ClaimTypes.Role, role));
+            }
             return Claim;
         }
 

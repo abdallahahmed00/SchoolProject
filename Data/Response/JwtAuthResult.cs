@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.Helpers
+namespace Data.Response
 {
     public class JwtAuthResult
     {

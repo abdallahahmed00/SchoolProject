@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Core.Basis;
 using Core.Features.User.Commands.Models;
+using Data.Entities.Identity;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,7 +58,8 @@ namespace Core.Features.User.Commands.Handlers
             {
                 return BadRequest<string>(" created is failed ");
 
-            }   
+            }        
+             await _UserManager.AddToRoleAsync(identityUser, "User");
             return Created("");
         }
 
