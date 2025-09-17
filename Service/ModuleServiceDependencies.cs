@@ -14,7 +14,10 @@ using Service.Implementation;
                 services.AddTransient<IDepartmentSrvice, DepartmentSrvice>();
                 services.AddTransient<IInstructorService, InstructorService>();
                 services.AddTransient<IAuthenticationService, AuthenticationService>();
-                return services;
+
+            services.AddTransient<IAuthorizationService, AuthorizationService>();
+
+            return services;
             }
         }
     }

@@ -63,5 +63,22 @@ namespace Data.AppMetaData
 
         }
 
+        public static class AuthorizationRouting
+        {
+            public const string Prefix = Rule + "Authorization";
+            public const string Create = Prefix + "/Role/Create";
+            public const string Edit = Prefix + "/Role/Edit";
+            public const string Delete = Prefix + "/Role/Delete";
+            public const string GetList = Prefix + "/Role/GetList";
+            public const string Get = Prefix + "/Role/Get/{Id}";
+            public const string ManageUserRoles = Prefix + "/Role/ManageUserRoles/{Id}";
+            public const string UpdateUserRoles = Prefix + "/Role/UpdateUserRoles/{Id}";
+            public const string ManageUserClaim = Prefix + "/Claim/ManageUserClaim/{Id}";
+            public const string UpdateUserClaims = Prefix + "/Claim/UpdateUserClaims/{Id}";
+
+
+
+        }
+
     }
 }
