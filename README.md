@@ -1,38 +1,40 @@
 SchoolProjectInCleanArchitecture
-
-
-
+Description
 SchoolProject Using Asp.net Core Web Api Using Clean Architecture Based On Code First
 
 Components
-1.CQRS Design Pattern (MediatR)
+1.CQRS Design Pattern
 
 2.Generic(Repository) Design Pattern
 
 3.Pagination Schema
 
-4. Standardized Responses
+4.Localizations Of Data And Responses
 
 5.Fluent Validations
 
 6.Configurations Using Data Annotations
 
-7.EndPoints Of Operations
+7.Configurations using Fluent API
 
-8.Allow CORS
+8.EndPoints Of Operations
 
-9.Using Identity
+9.Allow CORS
 
-10.Added Authentication
+10.Using Identity
 
-11.Added JWT Token And SwaggerGen
+11.Added Authentication
 
-12.Authorizations(Roles,Claims)
+12.Added JWT Token And SwaggerGen
 
-13.Service Like Send (Email,Upload Image)
+13.Authorizations(Roles,Claims)
 
-14.Filters
+14.Service Like Send (Email,Upload Image)
 
-15.Database Operations(Views) Endpoint
+15.Filters
 
-16.Logging with Serilog (Console + SQL Server)
+16.Database Operations(Views,Procedures,Functions) Endpoint
+
+17.Logs
+
+18.Unit Test (XUnit)
