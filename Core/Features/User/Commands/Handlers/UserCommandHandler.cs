@@ -5,8 +5,12 @@ using Data.Entities.Identity;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Connections.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Service.Abstract;
+using Service.Implementation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,13 +29,18 @@ namespace Core.Features.User.Commands.Handlers
         private readonly IMapper _mapper;
         private readonly UserManager<Data.Entities.Identity.User> _UserManager;
         private readonly IValidator<AddUserCommand> _validator;
-      //  private readonly IValidator<ChangeUserPasswordCommand> validator;
+        private readonly IHttpContextAccessor _accessor;
+        private readonly IEmailService _emailService;
+        private readonly IApplicationUserService _applicationUserService;
         public UserCommandHandler (IMapper mapper, UserManager<Data.Entities.Identity.User> UserManager,
-            IValidator<AddUserCommand> validator)
+            IValidator<AddUserCommand> validator, IHttpContextAccessor accessor,IEmailService emailService, IApplicationUserService applicationUserService)
         {
          _UserManager=UserManager;
             _mapper = mapper; 
             _validator = validator;
+            _accessor = accessor;
+            _emailService=emailService;
+            _applicationUserService = applicationUserService;
         }
         public async Task<Response<string>> Handle(AddUserCommand request, CancellationToken cancellationToken)
         {
@@ -41,26 +50,17 @@ namespace Core.Features.User.Commands.Handlers
             var errors = result.Errors.Select(e => e.ErrorMessage).ToList();
             return BadRequest<string>(string.Join(" , ", errors));
         }
-
-            var user =await _UserManager.FindByEmailAsync(request.Email);
-            if(user!=null)
+            var identityUser = _mapper.Map<Data.Entities.Identity.User >(request);
+            var createResult = await _applicationUserService.AddUserAsync(identityUser, request.Password);
+              switch (createResult)
             {
-                return BadRequest<string>("Email Is Exist");
+                case "EmailIsExist": return BadRequest<string>();
+                case "UserNameIsExist": return BadRequest<string>();
+                case "ErrorInCreateUser": return BadRequest<string>();
+                case "Failed": return BadRequest<string>();
+                case "Success": return Success<string>("");
+                default: return BadRequest<string>(createResult);
             }
-            var userByName = await _UserManager.FindByNameAsync(request.UserName);
-            if (user != null)
-            {
-                return BadRequest<string>("UserName Is Exist");
-            }
-            var identityUser = _mapper.Map < Data.Entities.Identity.User > (request);
-            var CreateResult = await  _UserManager.CreateAsync(identityUser,request.Password);
-            if (!CreateResult.Succeeded)
-            {
-                return BadRequest<string>(" created is failed ");
-
-            }        
-             await _UserManager.AddToRoleAsync(identityUser, "User");
-            return Created("");
         }
 
         public async Task<Response<string>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)

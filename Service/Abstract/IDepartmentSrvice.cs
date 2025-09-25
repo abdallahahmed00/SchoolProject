@@ -1,4 +1,5 @@
 ﻿using Data.Entities;
+using Data.Entities.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Service.Abstract
         public  Task<List<Department>> GetAllDepartment();
         public Task<Department> GetDepartmentByIdAsync(int Id);
         public Task<List<Department>> GetNumberOfInstructorinDepartment();
-
+        public Task<List<ViewDepartment>> GetCountStudentInDepartmentAsync();
         public Task<bool> IsDepartmentExist(int DepartmentID);
 
     }

@@ -21,7 +21,6 @@ namespace SchoolProject.Api.Controllers
         {
             _mediator = mediator;
         }
-      //  [HttpPost(Router.ApplicationUserRouting.Create)]
         [HttpPost(Router.ApplicationUserRouting.Create)]
         public async Task<IActionResult> Create([FromBody] AddUserCommand coomand)
         {

@@ -1,4 +1,5 @@
-﻿using SchoolProject.Data.Entities;
+﻿using Microsoft.AspNetCore.Http;
+using SchoolProject.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,11 @@ namespace Service.Abstract
             public Task<Instructor> GetInstructorByIdWithoutInclude(int Id);
             public Task<string> DeleteInstructor(Instructor instructor);
         public Task<decimal> GetTotalSalary();
+        public Task<bool> IsNameExist(string Name);
+        public Task<bool> IsNameExistExcludeSelf(string Name,int Id);
+        public Task<string> AddInstructorAsync(Instructor instructor, IFormFile formFile);
+        public Task<string>UpdateInstructorImageAsync(int Id  , IFormFile formFile);
+        public Task<bool> IsNameExistById(int Id);
+
     }
 }

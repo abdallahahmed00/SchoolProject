@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Interface;
 using Infrastructure.Repositires;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using SchoolProject.Data.Entities;
 using Service.Abstract;
@@ -14,11 +15,25 @@ namespace Service.Implementation
     public class InstructorService : IInstructorService
     {
         private readonly IInstructorRepositry _instructorRepositry;
-        public InstructorService(IInstructorRepositry instructorRepositry) 
+        private readonly IFileService _fileService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public InstructorService(IInstructorRepositry instructorRepositry, IFileService fileService,
+            IHttpContextAccessor httpContextAccessor) 
         
         {
             _instructorRepositry = instructorRepositry; 
-     
+            _fileService= fileService;
+            _httpContextAccessor= httpContextAccessor;
+        }
+
+        public async Task<string> AddInstructorAsync(Instructor instructor, IFormFile formFile)
+        {
+            var context = _httpContextAccessor.HttpContext.Request;
+            var url =context.Scheme+"://"+context.Host;
+            var image =await _fileService.UploadImage("Instructors", formFile);
+            instructor.Image = url+image;
+            var result =await _instructorRepositry.AddAsync(instructor);
+            return "Success";
         }
 
         public async Task<string> DeleteInstructor(Instructor instructor)
@@ -38,7 +53,22 @@ namespace Service.Implementation
                 return "Failed";
             }
         }
-        
+        public async Task<string> UpdateInstructorImageAsync( int Id, IFormFile formFile)
+        {
+            var instructor =await _instructorRepositry.GetByIdAsync(Id);
+            if (instructor == null)
+            {
+                return "InstructorNotFound";
+            }
+            var context = _httpContextAccessor.HttpContext.Request;
+            var url = context.Scheme + "://" + context.Host;
+            var image = await _fileService.UploadImage("Instructors", formFile);
+            instructor.Image = url + image;
+            await _instructorRepositry.UpdateAsync(instructor);
+            await _instructorRepositry.SaveChangesAsync();
+            return "Success";
+        }
+
 
         public async Task<List<Instructor>> GetAllInstructor()
         {
@@ -68,6 +98,41 @@ namespace Service.Implementation
           return 
                  await _instructorRepositry.GetTotalSalaryForInstructor();
         }
+
+        public async Task<bool> IsNameExist(string Name)
+        {
+            var result = await _instructorRepositry.GetTableNoTracking()
+                .Where(x => x.Name.Equals(Name)).FirstOrDefaultAsync();
+            if (result==null)
+            {
+                return false;
+            }
+            return true;
+        }
+        public async Task<bool> IsNameExistById(int Id)
+        {
+            var result = await _instructorRepositry.GetTableNoTracking()
+                .Where(x => x.InsId.Equals(Id)).FirstOrDefaultAsync();
+            if (result == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public async Task<bool> IsNameExistExcludeSelf(string Name, int Id)
+        {
+
+            var result = await _instructorRepositry.GetTableNoTracking()
+                .Where(x => x.Name.Equals(Name)&x.InsId!=Id).FirstOrDefaultAsync();
+            if (result == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+       
     }
 
 }

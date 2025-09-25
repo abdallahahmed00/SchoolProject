@@ -13,7 +13,8 @@ namespace Core.Mapping.DepartmentsMspping
         {
             GetDepartmentByIdMapping();
             GetTotalInstructorMapping();
-
+            GetDepartmentStudentCountMapping();
+            GetListDepartmentMapping();
         }
     }
 }

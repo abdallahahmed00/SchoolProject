@@ -14,7 +14,9 @@ using System.Threading.Tasks;
 namespace Core.Features.Authentication.Query.Handlers
 {
     public class AuthenticationQueryHandler : ResponseHandler,
-        IRequestHandler<AuthorizeUserQuery, Response<string>>
+        IRequestHandler<AuthorizeUserQuery, Response<string>>,
+        IRequestHandler<ConfirmEmailQuery, Response<string>>,
+        IRequestHandler<ConfirmResetPasswordQuery, Response<string>>
     {
           
    
@@ -33,6 +35,26 @@ namespace Core.Features.Authentication.Query.Handlers
                 return Success(result);
             }
             return Unauthorized<string>();
+        }
+
+        public async Task<Response<string>> Handle(ConfirmEmailQuery request, CancellationToken cancellationToken)
+        {
+            var confirmEmail = await _AuthenticationService.ConfirmEmail(request.UserId, request.Code);
+            if (confirmEmail == "ErrorWhenConfirmEmail")
+                return BadRequest<string>();
+            return Success<string>("");
+        }
+
+        public async Task<Response<string>> Handle(ConfirmResetPasswordQuery request, CancellationToken cancellationToken)
+        {
+            var result =await _AuthenticationService.ConfirmResetPassword(request.Code,request.Email);
+            switch (result)
+            {
+                case "UserNotFound": return BadRequest<string>("UserNotFound");
+                case "Failed": return BadRequest<string>("Failed");
+                case "Success": return Success<string>("Success");
+                default: return BadRequest<string>("");
+            }
         }
     }
 }

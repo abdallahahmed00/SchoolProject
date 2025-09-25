@@ -49,6 +49,18 @@ namespace SchoolProject.Api.Controllers
             var res = await _mediator.Send(new GetTotalSalaryQuery());
             return NewResult(res);
         }
+        [HttpPost(Router.InstructorRouting.AddInstructor)]
+        public async Task<IActionResult> AddInstructor([FromForm] AddInstructorCommand command)
+        {
+            var res = await _mediator.Send(command);
+            return NewResult(res);
+        }
+        [HttpPost(Router.InstructorRouting.UpdateImageInstructor)]
+        public async Task<IActionResult> UpdateImageInstructor([FromForm] UpdateInstructorImageCommands command)
+        {
+            var res = await _mediator.Send(command);
+            return NewResult(res);
+        }
 
     }
 }

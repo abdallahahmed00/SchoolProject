@@ -2,6 +2,8 @@
 using Core.Basis;
 using Core.Features.Instrucotrs.Command.Models;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using SchoolProject.Data.Entities;
 using Service.Abstract;
 using System;
 using System.Collections.Generic;
@@ -12,7 +14,9 @@ using System.Threading.Tasks;
 namespace Core.Features.Instrucotrs.Command.Handlers
 {
     public class InstructorCommandHandler :ResponseHandler,
-        IRequestHandler<DeleteInstructorByIdCommand, Response<string>>
+        IRequestHandler<DeleteInstructorByIdCommand, Response<string>>,
+        IRequestHandler<AddInstructorCommand, Response<string>>,
+        IRequestHandler<UpdateInstructorImageCommands, Response<string>>
     {
         private readonly IInstructorService _instructorService;
         private readonly IMapper _mapper;
@@ -39,6 +43,29 @@ namespace Core.Features.Instrucotrs.Command.Handlers
              return BadRequest<string>("Deleted Failed");
 
             }
+        }
+
+        public async Task<Response<string>> Handle(AddInstructorCommand request, CancellationToken cancellationToken)
+        {
+            var instructor = _mapper.Map<Instructor>(request);
+            var result = await _instructorService.AddInstructorAsync(instructor,request.Image);
+            if(result!= "Success")
+            {
+                return BadRequest<string>("it failed");
+            }
+            return Success("Added");
+        }
+
+        public async Task<Response<string>> Handle(UpdateInstructorImageCommands request, CancellationToken cancellationToken)
+        {
+            var instructor = _mapper.Map<Instructor>(request);
+            var result = await _instructorService.UpdateInstructorImageAsync(instructor.InsId, request.Image);
+
+            if (result != "Success")
+            {
+                return BadRequest<string>("it failed");
+            }
+            return Success("Updated");
         }
     }
 }
