@@ -1,8 +1,10 @@
-SchoolProjectInCleanArchitecture
-Description
-SchoolProject Using Asp.net Core Web Api Using Clean Architecture Based On Code First
+#  SchoolProjectInCleanArchitectur
+# A Description
+
+ SchoolProject Using Asp.net Core Web Api Using Clean Architecture Based On Code First
 
 Components
+
 1.CQRS Design Pattern
 
 2.Generic(Repository) Design Pattern
@@ -15,26 +17,23 @@ Components
 
 6.Configurations Using Data Annotations
 
-7.Configurations using Fluent API
+7.EndPoints Of Operations
 
-8.EndPoints Of Operations
+8.Allow CORS
 
-9.Allow CORS
+9.Using Identity
 
-10.Using Identity
+10.Added Authentication
 
-11.Added Authentication
+11.Added JWT Token And SwaggerGen
 
-12.Added JWT Token And SwaggerGen
+12.Authorizations(Roles,Claims)
 
-13.Authorizations(Roles,Claims)
+13.Service Like Send (Email,Upload Image)
 
-14.Service Like Send (Email,Upload Image)
+14.Filters
 
-15.Filters
+15.Database Operations(Views) Endpoint
 
-16.Database Operations(Views,Procedures,Functions) Endpoint
+16.Logging with Serilog (Console + SQL Server)
 
-17.Logs
-
-18.Unit Test (XUnit)
