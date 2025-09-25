@@ -12,11 +12,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Features.Authentication.Handlers
+namespace Core.Features.Authentication.Commands.Handlers
 {
     public class AuthenticationCommandHandler :ResponseHandler,
         IRequestHandler<SignInCommand,Response<JwtAuthResult>>,
-        IRequestHandler<RefreshTokenCommand,Response<JwtAuthResult>>
+        IRequestHandler<RefreshTokenCommand,Response<JwtAuthResult>>,
+        IRequestHandler<ResetPasswordCommand,Response<string>>,
+        IRequestHandler<SetNewPasswordCommand,Response<string>>
     {
         private readonly UserManager<Data.Entities.Identity.User> _UserManager;
         private readonly SignInManager<Data.Entities.Identity.User> _SignInManager;
@@ -41,6 +43,11 @@ namespace Core.Features.Authentication.Handlers
             {
                 return BadRequest<JwtAuthResult>("wrong in password or username");
             }
+           //if(!user.EmailConfirmed)
+           // {
+           //     return BadRequest<JwtAuthResult>("email is not confirmed");
+
+           // }
 
             var result  =await _AuthenticationService.GetJWTToken(user);
             return Success(result);
@@ -69,6 +76,31 @@ namespace Core.Features.Authentication.Handlers
             }
             var result =await  _AuthenticationService.GetRefreshToken(user, jwttoken,expiryDate ,request.RefreshToken);
             return Success( result);
+        }
+
+        public async Task<Response<string>> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _AuthenticationService.SendResetPasswordCode(request.Email);
+            switch (result)
+            {
+                case "UserNotFound": return BadRequest<string>("UserNotFound");
+                case "ErrorInUpdateUser": return BadRequest<string>("ErrorInUpdateUser");
+                case "Failed": return BadRequest<string>("Failed");
+                case "Success": return Success<string>("Success");
+                default: return BadRequest<string>("");
+            }
+        }
+
+        public async Task<Response<string>> Handle(SetNewPasswordCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _AuthenticationService.ResetPassword(request.Password,request.Email);
+            switch (result)
+            {
+                case "UserNotFound": return BadRequest<string>("UserNotFound");
+                case "Failed": return BadRequest<string>("Failed");
+                case "Success": return Success<string>("Success");
+                default: return BadRequest<string>("");
+            }
         }
     }
 }

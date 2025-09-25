@@ -13,6 +13,8 @@ namespace Core.Mapping.InstructorMapping
         {
             GetAllInstructorMapping();
             GetInstructorByIdMapping();
+            AddInstructorMapping();
+            UpdateInstructorImageMapping();
         }
     }
 

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Features.Authentication.Validations
+namespace Core.Features.Authentication.Commands.Validations
 {
     public class SignInValidator : AbstractValidator<SignInCommand>
     {

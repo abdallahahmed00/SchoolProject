@@ -19,6 +19,7 @@ namespace Infrastructure
 {
     public static class ServiceRegisteration
     {
+
         public static IServiceCollection AddServiceRegisteration(this IServiceCollection services
             , IConfiguration configuration)
         {
@@ -47,6 +48,10 @@ namespace Infrastructure
             var JwtSettings = new JwtSettings();
             configuration.GetSection(nameof(JwtSettings)).Bind(JwtSettings);
             services.AddSingleton(JwtSettings);
+            var emailSettings = new EmailSettings();
+            configuration.GetSection("emailSettings").Bind(emailSettings);
+            services.AddSingleton(emailSettings);
+
 
             services.AddAuthentication(x =>
             {

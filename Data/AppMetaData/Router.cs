@@ -28,6 +28,8 @@ namespace Data.AppMetaData
             public const string Prefix = Rule + "Instructor";
             public const string List = Prefix + "/List";
             public const string Delete = Prefix + "/Delete";
+            public const string AddInstructor = Prefix + "/AddInstructor";
+            public const string UpdateImageInstructor = Prefix + "/UpdateImageInstructor";
             public const string TotalSalary = Prefix + "/TotalSalary";
          
             public const string GetById = Prefix + "/{Id}";
@@ -38,6 +40,7 @@ namespace Data.AppMetaData
         {
             public const string Prefix = Rule + "Department";
             public const string List = Prefix + "/List";
+            public const string TotalStudent = Prefix + "/TotalStudent";
             public const string TotalInstructor = Prefix + "/TotalInstructor";
             public const string GetById = Prefix + "/{Id}";
 
@@ -58,6 +61,10 @@ namespace Data.AppMetaData
             {
             public const string Prefix = Rule + "Authentication";
             public const string SighIn = Prefix + "/SighIn";
+            public const string SendResetPassword = Prefix + "/SendResetPassword";
+            public const string ResetPassword = Prefix + "/ResetPassword";
+            public const string ConfirmResetPassword = Prefix + "/ConfirmResetPassword";
+            public const string ConfirmEmail = "/Api/Authentication/ConfirmEmail";
             public const string RefreshToken = Prefix + "/RefreshToken";
             public const string ValidateToken = Prefix + "/ValidateToken";
 
@@ -79,6 +86,13 @@ namespace Data.AppMetaData
 
 
         }
+        public static class EmailRouting
+        {
+            public const string Prefix = Rule + "Email";
+            public const string SendEmail = Rule + "SendEmail";
+
+        }
+
 
     }
 }

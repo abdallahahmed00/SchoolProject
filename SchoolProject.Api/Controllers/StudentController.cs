@@ -4,14 +4,15 @@ using Core.Features.Students.Queries.Models;
 using Core.Features.Students.Queries.ResultDto;
 using Data.AppMetaData;
 using Data.Entities;
+using Data.Entities.Identity;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolProject.Api.Base;
 
 namespace SchoolProject.Api.Controllers
 {
-    //  [Route("api/[controller]")]
     [ApiController]
     public class StudentController : AppControllerBase
     {
@@ -21,6 +22,7 @@ namespace SchoolProject.Api.Controllers
         {
             _mediator = mediator;
         }
+        [Authorize(Roles="User")]
         [HttpGet(Router.StudentRouting.List)]
         public async Task<IActionResult> GetStudentList()
         {

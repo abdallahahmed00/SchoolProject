@@ -1,6 +1,7 @@
-﻿    using Data.Entities.Identity;
+﻿     using Data.Entities.Identity;
 using Data.Helpers;
 using Data.Response;
+using EntityFrameworkCore.EncryptColumn.Interfaces;
 using infrastructure.Data;
 using Infrastructure.Interface;
 using Microsoft.AspNetCore.Identity;
@@ -25,16 +26,19 @@ namespace Service.Implementation
         private readonly JwtSettings _jwtSettings;
         private readonly IRefreshTokenRepo _refreshTokenRepo;
         private readonly UserManager<User> _userManager;
-    //    private readonly IEmailsService _emailsService;
+      private readonly IEmailService _emailsService;
         private readonly AppDbContext _applicationDBContext;
-     //   private readonly IEncryptionProvider _encryptionProvider;
+        private readonly IEncryptionProvider _encryptionProvider;
         public AuthenticationService(JwtSettings jwtSettings, IRefreshTokenRepo refreshTokenRepo, 
-            UserManager<User> userManager, AppDbContext applicationDBContext)
+            UserManager<User> userManager, AppDbContext applicationDBContext
+            ,IEmailService emailService , IEncryptionProvider encryptionProvider)
         {
             _jwtSettings = jwtSettings;
             _refreshTokenRepo = refreshTokenRepo;
             _userManager=userManager;
             _applicationDBContext=applicationDBContext;
+            _emailsService = emailService;
+            _encryptionProvider=encryptionProvider;
         }
         public async Task<JwtAuthResult> GetJWTToken(User user)
         {
@@ -213,50 +217,74 @@ namespace Service.Implementation
 
         public async Task<string> SendResetPasswordCode(string Email)
         {
-            throw new NotImplementedException();
 
-            //    var trans = await _app.Database.BeginTransactionAsync();
-            //    try
-            //    {
-            //        //user
-            //        var user = await _userManager.FindByEmailAsync(Email);
-            //        //user not Exist => not found
-            //        if (user == null)
-            //            return "UserNotFound";
-            //        //Generate Random Number
+                var trans = await _applicationDBContext.Database.BeginTransactionAsync();
+                try
+                {
+                    
+                    var user = await _userManager.FindByEmailAsync(Email);
+                    if (user == null)
+                        return "UserNotFound";
 
-            //        //Random generator = new Random();
-            //        //string randomNumber = generator.Next(0, 1000000).ToString("D6");
-            //        var chars = "0123456789";
-            //        var random = new Random();
-            //        var randomNumber = new string(Enumerable.Repeat(chars, 6).Select(s => s[random.Next(s.Length)]).ToArray());
+                    Random generator = new Random();
+                    string randomNumber = generator.Next(0, 1000000).ToString("D6");
+                    var chars = "0123456789";
+                    var random = new Random();
+                  //  var randomNumber = new string(Enumerable.Repeat(chars, 6).Select(s => s[random.Next(s.Length)]).ToArray());
 
-            //        //update User In Database Code
-            //        user. = randomNumber;
-            //        var updateResult = await _userManager.UpdateAsync(user);
-            //        if (!updateResult.Succeeded)
-            //            return "ErrorInUpdateUser";
-            //        var message = "Code To Reset Passsword : " + user.Code;
-            //        //Send Code To  Email 
-            //        await _emailsService.SendEmail(user.Email, message, "Reset Password");
-            //        await trans.CommitAsync();
-            //        return "Success";
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        await trans.RollbackAsync();
-            //        return "Failed";
-            //    }
+                    user.Code = randomNumber;
+                    var updateResult = await _userManager.UpdateAsync(user);
+                    if (!updateResult.Succeeded)
+                        return "ErrorInUpdateUser";
+                    var message = "Code To Reset Passsword : " + user.Code;
+                   await _emailsService.SendEmail(user.Email, message, "Reset Password");
+                    await trans.CommitAsync();
+                    return "Success";
+                }
+                catch (Exception ex)
+                {
+                    await trans.RollbackAsync();
+                    return "Failed";
+                }
         }
 
-        public Task<string> ConfirmResetPassword(string Code, string Email)
+        public async Task<string> ConfirmResetPassword(string Code, string Email)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByEmailAsync(Email);
+            if (user == null)
+            {
+                return "UserNotFound";
+            }
+            var usercode = user.Code;
+            if (usercode == Code)
+            {
+                return "Success";
+            }
+            return "Failed";
         }
 
-        public Task<string> ResetPassword(string Email, string Password)
+        public async Task<string> ResetPassword( string Password, string Email)
         {
-            throw new NotImplementedException();
+            var trans = await _applicationDBContext.Database.BeginTransactionAsync();
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(Email);
+                if (user == null)
+                    return "UserNotFound";
+                await _userManager.RemovePasswordAsync(user);
+                if (!await _userManager.HasPasswordAsync(user))
+                {
+                    await _userManager.AddPasswordAsync(user, Password);
+                }
+                await trans.CommitAsync();
+                return "Success";
+            }
+            catch (Exception ex)
+            {
+                await trans.RollbackAsync();
+                return "Failed";
+            }
         }
+
     }
-    }
+}

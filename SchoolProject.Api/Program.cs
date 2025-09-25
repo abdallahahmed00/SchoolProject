@@ -1,6 +1,7 @@
 ﻿using Core;
 using Core.Features.User.Commands.Models;
 using Core.Features.User.Commands.Validations;
+using Core.Filters;
 using Data.Entities;
 using Data.Entities.Identity;
 using FluentValidation;
@@ -10,9 +11,14 @@ using infrastructure.Repositires;
 using Infrastructure;
 using Infrastructure.Seedor;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Serilog;
 using Service;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,7 +61,19 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<IValidator<AddUserCommand>, AddUserValiator>();
 
 
+builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+builder.Services.AddTransient<IUrlHelper>(x =>
+{
+    var actionContext = x.GetRequiredService<IActionContextAccessor>().ActionContext;
+    var factory = x.GetRequiredService<IUrlHelperFactory>();
+    return factory.GetUrlHelper(actionContext);
+});
 
+builder.Services.AddTransient<AuthFilter>();
+
+Log.Logger = new LoggerConfiguration().
+    ReadFrom.Configuration(builder.Configuration).CreateLogger();
+builder.Services.AddSerilog();
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -66,7 +84,6 @@ using (var scope = app.Services.CreateScope())
     await UserSeedor.SeedAsync(userManager);
 }
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();  
@@ -79,7 +96,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication(); 
 app.UseAuthorization();
 app.UseCors(cors);
-
+app.UseStaticFiles();
 app.MapControllers();
 
 app.Run();

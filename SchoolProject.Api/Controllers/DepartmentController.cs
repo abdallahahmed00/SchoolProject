@@ -3,14 +3,16 @@ using Core.Features.Student.Queries.Models;
 using Core.Features.Students.Queries.Models;
 using Data.AppMetaData;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolProject.Api.Base;
+using Serilog;
 
 namespace SchoolProject.Api.Controllers
 {
-    //   [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles ="Admin,User")]
     public class DepartmentController : AppControllerBase
     {
         private readonly IMediator _mediator;
@@ -19,6 +21,7 @@ namespace SchoolProject.Api.Controllers
         {
             _mediator = mediator;
         }
+       [AllowAnonymous]
         [HttpGet(Router.DepartmentRouting.List)]
         public async Task<IActionResult> GetDepartmentList()
         {
@@ -35,6 +38,12 @@ namespace SchoolProject.Api.Controllers
         public async Task<IActionResult> TotalInstructor()
         {
             var res = await _mediator.Send(new GetTotalInstructorInDepartmentQuery());
+            return NewResult(res);
+        }
+        [HttpGet(Router.DepartmentRouting.TotalStudent)]
+        public async Task<IActionResult> TotalStudent()
+        {
+            var res = await _mediator.Send(new GetDepartmentStudentCountQuery());
             return NewResult(res);
         }
     }

@@ -14,10 +14,10 @@ namespace Core.Features.Departmentcore.Queries.ResultDto
     public class GetListDepartmentDto
     {
         public int DID { get; set; }
-        public int? InsManager { get; set; }
-        public virtual ICollection<Data.Entities.Student> StudentList { get; set; }
-        public virtual ICollection<DepartmetSubject> DepartmentSubjectsList { get; set; }
-        public virtual ICollection<Instructor> InstructorsList { get; set; }
-        public virtual Instructor? Instructor { get; set; }
+        public string Name { get; set; }
+        public virtual ICollection<StudentRsponse>? StudentList { get; set; }
+        public virtual ICollection<SubjectRsponse>? SubjectsList { get; set; }
+        public virtual ICollection<InstrucortRsponse>? InstructorsList { get; set; }
+        public string ManagerName { get; set; }
     }
 }

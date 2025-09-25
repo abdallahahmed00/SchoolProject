@@ -1,5 +1,9 @@
 ﻿using Data.Entities;
 using Data.Entities.Identity;
+using Data.Entities.View;
+using EntityFrameworkCore.EncryptColumn.Extension;
+using EntityFrameworkCore.EncryptColumn.Interfaces;
+using EntityFrameworkCore.EncryptColumn.Util;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -17,13 +21,14 @@ namespace infrastructure.Data
         IdentityUserRole<int>, IdentityUserLogin<int>,
         IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
-        //public AppDbContext()     
-        //{
-
-        //}
+        private readonly IEncryptionProvider _encryptionProvider;
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-            
+
+            _encryptionProvider = new GenerateEncryptionProvider("8a4dcaaec64d412380fe4b02193cd26f")
+            {
+
+            };
         }
         public DbSet<User> User { get; set;}
         public DbSet<Student>Students { get; set; } 
@@ -34,10 +39,12 @@ namespace infrastructure.Data
         public DbSet<Instructor> Instructors { get; set; }
         public DbSet<Ins_Subject> Ins_Subjects { get; set; }
         public DbSet<UserRefreshToken> userRefreshTokens { get; set; }
+        public DbSet<ViewDepartment> ViewDepartment { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
          //   modelBuilder.HasDefaultSchema("School");
             base.OnModelCreating(modelBuilder);
+            modelBuilder.UseEncryption(_encryptionProvider);
         }
 
     }

@@ -1,5 +1,7 @@
 ﻿using Data.Entities;
+using Data.Entities.View;
 using Infrastructure.Interface;
+using Infrastructure.Interface.View;
 using Infrastructure.Repositires;
 using Microsoft.EntityFrameworkCore;
 using Service.Abstract;
@@ -13,10 +15,12 @@ namespace Service.Implementation
 {
     public class DepartmentSrvice :IDepartmentSrvice
     {
-        private readonly IDepartmentRepositry _departmentrepo; 
-        public DepartmentSrvice (IDepartmentRepositry department)
+        private readonly IDepartmentRepositry _departmentrepo;
+        private readonly IViewRepository<ViewDepartment> _viewRepository;
+        public DepartmentSrvice (IDepartmentRepositry department, IViewRepository<ViewDepartment> viewRepository)
         {
             _departmentrepo = department;   
+            _viewRepository = viewRepository;
         }
         public async Task<List<Department>> GetAllDepartment()
         {
@@ -27,6 +31,13 @@ namespace Service.Implementation
                    .Include(d => d.Instructor) 
                    .ToListAsync();
         }
+
+        public async Task<List<ViewDepartment>> GetCountStudentInDepartmentAsync()
+        {
+            var ViewDepartment =await _viewRepository.GetTableNoTracking().ToListAsync();
+            return ViewDepartment;
+        }
+
         public async Task<Department> GetDepartmentByIdAsync(int Id)
         {
             var department = await _departmentrepo.GetTableNoTracking()
