@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolProject.Api.Base;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace SchoolProject.Api.Controllers
 {
@@ -29,6 +30,7 @@ namespace SchoolProject.Api.Controllers
             var res = await _mediator.Send(new GetListStudentQuery());
             return NewResult(res);
         }
+        [SwaggerOperation(Summary ="Get Student By id",OperationId = "GetById")]
         [HttpGet(Router.StudentRouting.GetById)]
         public async Task<IActionResult> GetStudentById([FromRoute] int Id)
         {

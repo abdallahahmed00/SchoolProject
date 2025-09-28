@@ -22,6 +22,21 @@ namespace Service.Implementation
             _departmentrepo = department;   
             _viewRepository = viewRepository;
         }
+
+        public async Task <string> AddDepartmentAsync(Department department)
+        {
+            var check = await IsDepartmentExistByName(department.DName);
+
+            if (check) 
+            {
+                return "It is Exist";
+            }
+
+            await _departmentrepo.AddAsync(department);
+            return "Success";
+
+        }
+
         public async Task<List<Department>> GetAllDepartment()
         {
             return await _departmentrepo.GetTableNoTracking()
@@ -59,6 +74,47 @@ namespace Service.Implementation
         public  async Task<bool> IsDepartmentExist(int DepartmentID)
         {
            return await  _departmentrepo?.GetTableNoTracking().AnyAsync(X => X.DID.Equals( DepartmentID));
+        }
+
+        public async Task<bool> IsDepartmentExistByName(string Name)
+        {
+            return await _departmentrepo.GetTableNoTracking()
+       .AnyAsync(d => d.DName == Name);
+        }
+
+        public async Task<string> UpdateManagerDepartment(Department department)
+        {
+            var existingDepartment = await _departmentrepo.GetDepartmentWithInstructorAsync(department.DID);
+            if (existingDepartment == null)
+            {
+                return "Department Not Found";
+            }
+            existingDepartment.InsManager = department.InsManager;
+            await _departmentrepo.UpdateAsync(existingDepartment);
+            return "Success";
+        }
+
+        public async Task<string> UpdateSubjectInDepartment(Department department)
+        {
+            var existingDepartment = await _departmentrepo.GetDepartmentWithSubjectsAsync(department.DID);
+
+            if (existingDepartment == null)
+            {
+                return "Department Not Found";
+            }
+            existingDepartment.DepartmentSubjects.Clear();
+            foreach (var subject in department.DepartmentSubjects)
+            {
+                existingDepartment.DepartmentSubjects.Add(new DepartmetSubject
+                {
+                    DID = existingDepartment.DID,
+                    SubID = subject.SubID
+                });
+            }
+            await _departmentrepo.UpdateAsync(existingDepartment);
+            return "Success";
+
+
         }
     }
 }

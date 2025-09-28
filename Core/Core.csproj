@@ -8,11 +8,8 @@
 
   <ItemGroup>
     <Compile Remove="Features\Authentication\Results\**" />
-    <Compile Remove="Mapping\DepartmentsMspping\CommandMapping\**" />
     <EmbeddedResource Remove="Features\Authentication\Results\**" />
-    <EmbeddedResource Remove="Mapping\DepartmentsMspping\CommandMapping\**" />
     <None Remove="Features\Authentication\Results\**" />
-    <None Remove="Mapping\DepartmentsMspping\CommandMapping\**" />
   </ItemGroup>
 
   <ItemGroup>
