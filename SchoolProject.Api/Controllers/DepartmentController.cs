@@ -1,5 +1,7 @@
-﻿using Core.Features.Departmentcore.Queries.Models;
+﻿using Core.Features.Departmentcore.Commands.models;
+using Core.Features.Departmentcore.Queries.Models;
 using Core.Features.Student.Queries.Models;
+using Core.Features.Students.Commands.Models;
 using Core.Features.Students.Queries.Models;
 using Data.AppMetaData;
 using MediatR;
@@ -12,7 +14,7 @@ using Serilog;
 namespace SchoolProject.Api.Controllers
 {
     [ApiController]
-    [Authorize(Roles ="Admin,User")]
+  //  [Authorize(Roles ="Admin,User")]
     public class DepartmentController : AppControllerBase
     {
         private readonly IMediator _mediator;
@@ -21,13 +23,21 @@ namespace SchoolProject.Api.Controllers
         {
             _mediator = mediator;
         }
-       [AllowAnonymous]
+      // [AllowAnonymous]
         [HttpGet(Router.DepartmentRouting.List)]
         public async Task<IActionResult> GetDepartmentList()
         {
             var res = await _mediator.Send(new GetListDepartmentQuery());
             return NewResult(res);
         }
+
+        [HttpPost(Router.DepartmentRouting.create)]
+        public async Task<IActionResult> Create([FromBody] AddDepartmentCommand student)
+        {
+            var res = await _mediator.Send(student);
+            return NewResult(res);
+        }
+
         [HttpGet(Router.DepartmentRouting.GetById)]
         public async Task<IActionResult> GetStudentById([FromRoute] int Id)
         {
@@ -44,6 +54,18 @@ namespace SchoolProject.Api.Controllers
         public async Task<IActionResult> TotalStudent()
         {
             var res = await _mediator.Send(new GetDepartmentStudentCountQuery());
+            return NewResult(res);
+        }
+        [HttpPut(Router.DepartmentRouting.UpdateSubject)]
+        public async Task<IActionResult> UpdateSubject([FromBody] UpdateSubjectInDepartmentCommand student)
+        {
+            var res = await _mediator.Send(student);
+            return NewResult(res);
+        }
+        [HttpPut(Router.DepartmentRouting.UpdateManager)]
+        public async Task<IActionResult> UpdateManager([FromBody] UpdateManagerDepartmentCommand student)
+        {
+            var res = await _mediator.Send(student);
             return NewResult(res);
         }
     }

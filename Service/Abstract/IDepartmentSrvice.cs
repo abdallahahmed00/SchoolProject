@@ -15,6 +15,11 @@ namespace Service.Abstract
         public Task<List<Department>> GetNumberOfInstructorinDepartment();
         public Task<List<ViewDepartment>> GetCountStudentInDepartmentAsync();
         public Task<bool> IsDepartmentExist(int DepartmentID);
+        public Task<string> AddDepartmentAsync(Department department);
+        public Task<bool> IsDepartmentExistByName(string Name);
+        public Task<string> UpdateSubjectInDepartment(Department department);
+        public Task<string> UpdateManagerDepartment(Department department);
+
 
     }
 }

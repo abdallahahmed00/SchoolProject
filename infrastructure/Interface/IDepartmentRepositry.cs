@@ -11,5 +11,8 @@ namespace Infrastructure.Interface
     public interface IDepartmentRepositry :IGenericRepositoryAsync<Department>
     {
         public Task<List< Department>> GetNumberOfInstructorinDepartment();
+        public Task<Department> GetDepartmentWithSubjectsAsync(int id);
+        public Task<Department> GetDepartmentWithInstructorAsync(int id);
+
     }
 }

@@ -40,6 +40,9 @@ namespace Data.AppMetaData
         {
             public const string Prefix = Rule + "Department";
             public const string List = Prefix + "/List";
+            public const string create = Prefix + "/create";
+            public const string UpdateSubject = Prefix + "/UpdateSubject";
+            public const string UpdateManager = Prefix + "/UpdateManager";
             public const string TotalStudent = Prefix + "/TotalStudent";
             public const string TotalInstructor = Prefix + "/TotalInstructor";
             public const string GetById = Prefix + "/{Id}";

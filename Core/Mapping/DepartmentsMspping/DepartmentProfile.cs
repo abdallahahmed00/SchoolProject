@@ -15,6 +15,9 @@ namespace Core.Mapping.DepartmentsMspping
             GetTotalInstructorMapping();
             GetDepartmentStudentCountMapping();
             GetListDepartmentMapping();
+            AddDepartmentMapping();
+            UpdateSubjectDepartmentMapping();
+            UpdateManagerDepartmentMapping();
         }
     }
 }

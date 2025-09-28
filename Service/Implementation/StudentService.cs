@@ -21,12 +21,7 @@ namespace Service.Implementation
 
         public async Task<string> AddStudentAsync(Student student)
         {
-            //var studentresult = _studentRepositry.GetTableNoTracking()
-            //    .Where(x => x.Name.Equals( student.Name)).SingleOrDefault();
-            //if (studentresult!=null)
-            //{
-            //    return "Exist";
-            //}
+            
           await  _studentRepositry.AddAsync(student);
             return "Success";
         }

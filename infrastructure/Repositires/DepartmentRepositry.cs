@@ -23,5 +23,22 @@ namespace Infrastructure.Repositires
         {
            return await _Department.Include(x=>x.Instructors).ToListAsync();
         }
+
+       
+        public async Task<Department> GetDepartmentWithSubjectsAsync(int id)
+        {
+            return await 
+                _Department
+                .Include(d => d.DepartmentSubjects)
+                .FirstOrDefaultAsync(d => d.DID == id);
+        }
+
+        public async Task<Department> GetDepartmentWithInstructorAsync(int id)
+        {
+            return await
+                           _Department
+                           .Include(d => d.Instructor)
+                           .FirstOrDefaultAsync(d => d.DID == id);
+        }
     }
 }
