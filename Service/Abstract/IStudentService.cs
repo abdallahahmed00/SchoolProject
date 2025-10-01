@@ -16,6 +16,9 @@ namespace Service.Abstract
         public Task<string>AddStudentAsync(Student student);
         public Task<string>EditStudentAsync(Student student);
         public Task<string> DeleteStudentAsync(Student student);
+        public Task<List<Student>> FilterStudentsAsync(decimal? grade = null, string? name = null,
+            string? address = null,
+            string? phone = null, int? departmentid = null, int? studentid = null);
 
     }
 
