@@ -16,13 +16,7 @@ namespace SchoolProject.Api.Controllers
    // [Authorize]
     public class InstructorController : AppControllerBase
     {
-        private readonly IMediator _mediator;
-
-        public InstructorController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
-
+        
         [HttpGet(Router.InstructorRouting.List)]
         public async Task<IActionResult> GetInstrucotrList()
         {

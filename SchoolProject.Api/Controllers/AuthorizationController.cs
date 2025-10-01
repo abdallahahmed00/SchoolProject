@@ -13,12 +13,7 @@ namespace SchoolProject.Api.Controllers
     [ApiController]
     public class AuthorizationController : AppControllerBase
     {
-        private readonly IMediator _mediator;
-
-        public AuthorizationController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        
         [HttpPost(Router.AuthorizationRouting.Create)]
         public async Task<IActionResult> Create([FromForm ] AddRulesCommand command)
         {

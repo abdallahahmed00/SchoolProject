@@ -15,12 +15,7 @@ namespace SchoolProject.Api.Controllers
 
     public class ApplicationUserController : AppControllerBase
     {
-        private readonly IMediator _mediator;
-
-        public ApplicationUserController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        
         [HttpPost(Router.ApplicationUserRouting.Create)]
         public async Task<IActionResult> Create([FromBody] AddUserCommand coomand)
         {

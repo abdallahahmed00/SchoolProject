@@ -17,12 +17,7 @@ namespace SchoolProject.Api.Controllers
   //  [Authorize(Roles ="Admin,User")]
     public class DepartmentController : AppControllerBase
     {
-        private readonly IMediator _mediator;
-
-        public DepartmentController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+   
       // [AllowAnonymous]
         [HttpGet(Router.DepartmentRouting.List)]
         public async Task<IActionResult> GetDepartmentList()

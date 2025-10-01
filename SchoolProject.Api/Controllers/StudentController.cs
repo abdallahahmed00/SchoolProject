@@ -17,12 +17,7 @@ namespace SchoolProject.Api.Controllers
     [ApiController]
     public class StudentController : AppControllerBase
     {
-        private readonly IMediator _mediator;
-
-        public StudentController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+       
         [Authorize(Roles="User")]
         [HttpGet(Router.StudentRouting.List)]
         public async Task<IActionResult> GetStudentList()

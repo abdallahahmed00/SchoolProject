@@ -61,19 +61,19 @@ namespace Core.Features.Students.Queries.Handler
 
         }
 
-            public async Task<Response<List<GetStudentByFilterResult>>>Handle(GetStuentByFilterQuery request, CancellationToken cancellationToken)
-            {
-            var students = await _studentService.FilterStudentsAsync( request.Grade, request.Name,
-                                                 request.Address, request.Phone
-                                                 ,request.DID,request.StudID);
+                public async Task<Response<List<GetStudentByFilterResult>>>Handle(GetStuentByFilterQuery request, CancellationToken cancellationToken)
+                {
+                var students = await _studentService.FilterStudentsAsync( request.Grade, request.Name,
+                                                     request.Address, request.Phone
+                                                     ,request.DID,request.StudID);
 
-            if (students == null || !students.Any())
-            {
-                return BadRequest<List<GetStudentByFilterResult>>("Cant find");
+                if (students == null || !students.Any())
+                {
+                    return BadRequest<List<GetStudentByFilterResult>>("Cant find");
+                }
+
+                var result = _mapper.Map<List<GetStudentByFilterResult>>(students);
+                return Success(result); 
             }
-
-            var result = _mapper.Map<List<GetStudentByFilterResult>>(students);
-            return Success(result); 
         }
     }
-}
