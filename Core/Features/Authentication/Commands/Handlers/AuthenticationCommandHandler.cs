@@ -59,7 +59,8 @@ namespace Core.Features.Authentication.Commands.Handlers
          
          
             
-            var userIdAndExpireDate = await _AuthenticationService.ValidateDetails(jwttoken, request.AccessToken, request.RefreshToken);
+            var userIdAndExpireDate = await _AuthenticationService.
+                ValidateDetails(jwttoken, request.AccessToken, request.RefreshToken);
 
             switch (userIdAndExpireDate)
             {
@@ -74,7 +75,8 @@ namespace Core.Features.Authentication.Commands.Handlers
             {
                 return NotFound<JwtAuthResult>("not found ");
             }
-            var result =await  _AuthenticationService.GetRefreshToken(user, jwttoken,expiryDate ,request.RefreshToken);
+            var result =await  _AuthenticationService.GetRefreshToken(user, jwttoken,expiryDate
+                ,request.RefreshToken);
             return Success( result);
         }
 

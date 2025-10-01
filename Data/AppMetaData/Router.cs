@@ -18,6 +18,7 @@ namespace Data.AppMetaData
             public const string List = Prefix + "/List";
             public const string create = Prefix + "/create";
             public const string Delete = Prefix + "/Delete";
+            public const string getbyfilter = Prefix + "/getbyfilter";
             public const string Update = Prefix + "/Update";
             public const string UpdateName = Prefix + "/UpdateName";
             public const string GetById = Prefix + "/{Id}";

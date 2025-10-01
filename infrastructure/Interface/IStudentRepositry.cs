@@ -12,7 +12,9 @@ namespace infrastructure.Interface
     {
         public Task<List<Student>> GetStudentListAsync();
 
-        public  Task<Student> GetStudentByNameAsync(string Name); 
+        public  Task<Student> GetStudentByNameAsync(string Name);
+        public Task<List<Student>> FilterAsync(decimal? Grade = null, string? Name = null,string?address=null
+            ,string?phone=null ,int?departmentid=null,int? studentid = null);
 
     }
 }

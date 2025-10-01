@@ -48,6 +48,8 @@ namespace Service.Implementation
             return "Success";
         }
 
+      
+
         public async Task<Student> GetByIdAsync(int Id)
         {
             var student =await _studentRepositry.GetByIdAsync(Id);
@@ -72,6 +74,12 @@ namespace Service.Implementation
         public async Task<List<Student>> GetStudentListAsync()
         {
           return await  _studentRepositry.GetStudentListAsync();
+        }
+        public async Task<List<Student>> FilterStudentsAsync(decimal? grade = null, string? name = null
+            , string? address = null, string? phone = null
+            , int? departmentid = null, int? studentid = null)
+        {
+            return await _studentRepositry.FilterAsync(grade, name, address, phone,departmentid,studentid);
         }
     }
 }

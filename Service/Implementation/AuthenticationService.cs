@@ -71,7 +71,8 @@ namespace Service.Implementation
                 _jwtSettings.Audience,
                 claims,
                 expires: DateTime.Now.AddDays(_jwtSettings.AccessTokenExpireDate),
-                signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtSettings.Secret)), SecurityAlgorithms.HmacSha256Signature));
+                signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.
+                ASCII.GetBytes(_jwtSettings.Secret)), SecurityAlgorithms.HmacSha256Signature));
             var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
             return (jwtToken, accessToken);
         }
@@ -120,7 +121,9 @@ namespace Service.Implementation
             var response = new JwtAuthResult();
             response.AccessToken = newToken;
             var refreshTokenResult = new RefreshToken();
-            refreshTokenResult.UserName = jwtToken.Claims.FirstOrDefault(x => x.Type == nameof(UserClaimModel.UserName)).Value;
+          refreshTokenResult.UserName = jwtToken.Claims
+    .FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+
             refreshTokenResult.TokenString = refreshToken;
             refreshTokenResult.ExpireAt = (DateTime)expiryDate;
             response.refreshToken = refreshTokenResult;
@@ -151,7 +154,7 @@ namespace Service.Implementation
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtSettings.Secret)),
                 ValidAudience = _jwtSettings.Audience,
                 ValidateAudience = _jwtSettings.ValidateAudience,
-                ValidateLifetime = _jwtSettings.ValidateLifeTime,
+                ValidateLifetime = _jwtSettings.validateLifetime,
             };
             try
             {
@@ -176,7 +179,7 @@ namespace Service.Implementation
             {
                 return ("AlgorithmIsWrong", null);
             }
-            if (jwtToken.ValidTo > DateTime.UtcNow)
+            if (jwtToken.ValidTo <= DateTime.UtcNow)
             {
                 return ("TokenIsNotExpired", null);
             }

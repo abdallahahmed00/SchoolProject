@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Core.Mapping
 {
-    public  class StudentMapping :Profile
+    public  class GetListStudentMapping :Profile
     {
-        public StudentMapping() 
+        public GetListStudentMapping() 
         {
             CreateMap<Student, GetListStudentDto>()
                     .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.DName));

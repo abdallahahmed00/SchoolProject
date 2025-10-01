@@ -70,7 +70,7 @@ namespace Infrastructure
                    IssuerSigningKey = new SymmetricSecurityKey (Encoding.ASCII.GetBytes(JwtSettings.Secret)),
                    ValidAudience = JwtSettings.Audience,
                    ValidateAudience = JwtSettings.ValidateAudience,
-                   ValidateLifetime = JwtSettings.ValidateLifeTime,
+                   ValidateLifetime = JwtSettings.validateLifetime,
                };
            });
             services.AddSwaggerGen(c =>

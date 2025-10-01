@@ -71,6 +71,13 @@ namespace SchoolProject.Api.Controllers
             var res = await _mediator.Send(student);
             return NewResult(res);
         }
+        [HttpGet(Router.StudentRouting.getbyfilter)]
+
+        public async Task<IActionResult> getbyfilter([FromQuery] GetStuentByFilterQuery query)
+        {
+            var res = await _mediator.Send(query);
+            return NewResult(res);
+        }
 
     }
 }
